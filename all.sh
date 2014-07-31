@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Assuming a 64-bit Linux machine
+# Assuming a new 64-bit Linux machine (image)
 
 # sudo apt-get install -y git
 # git clone https://github.com/Butterwell/a.git
@@ -26,26 +26,26 @@ cd ~
 [ ! -e source ] && mkdir source
 [ ! -e tools ] && mkdir tools
 
+#echo 'export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
+#echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
+export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
+export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
+
+# Klee prelimiaries
+
 # cryptominisat 4 (first class sat used by stp)
 #  could build after: git clone https://github.com/msoos/cryptominisat.git
 cd ~/tools
 [ ! -e cryptominisat_4.2-5_amd64.deb ] && curl -O http://msoos.org/largefiles/cryptominisat_4.2-5_amd64.deb
 sudo dpkg -i cryptominisat_4.2-5_amd64.deb
 
-# Klee building
-
-echo 'export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
-echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
-export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
-export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
-
 #  llvm-gcc compiler (prebuilt image)
 cd ~/source
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux.tar.bz2 ] && curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 cd ~/tools
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux ] && tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
-echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH' >> ~/.bashrc
-echo 'export PATH' >> ~/.bashrc
+#echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH' >> ~/.bashrc
+#echo 'export PATH' >> ~/.bashrc
 export PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH
 
 #  llvm 2.9 release (build in source)
@@ -96,16 +96,17 @@ ulimit -s unlimited
 cd ~/source
 [ ! -e klee-uclibc ] && git clone --depth 1 --branch klee_0_9_29 https://github.com/ccadar/klee-uclibc.git
 cd klee-uclibc
-./configure --make-llvm-lib
+[ ! -e libm/k_cos.os ] && ./configure --make-llvm-lib
 make
-
-# ./configure -l
-# CC=/path/to/compiler ./configure -l --with-llvm-config /path/to/llvm-config
 
 # KLEE
 cd ~/source
 [ ! -e klee ] && git clone https://github.com/klee/klee.git
 cd klee
-./configure --with-llvm=../llvm-2.9 --with-stp=../../tools/stp --with-uclibc=../klee-uclibc --enable-posix-runtime
+[ ! -e Release+Asserts ] && ./configure --with-llvm=../llvm-2.9 --with-stp=../../tools/stp --with-uclibc=../klee-uclibc --enable-posix-runtime
+make ENABLE_OPTIMIZED=1
+make check
+make unittests
+sudo make install
 
-echo "Restart terminal for new PATH (new tools)"
+#echo "Restart terminal for new PATH (new tools)"
