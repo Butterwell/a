@@ -29,7 +29,7 @@ make CC=$cc
 make -C src arch hostname CC=$cc
 
 # visual tests
-cd ~/source/coreutils-6.11/src/obj-gcov
+cd ~/source/coreutils-6.11/obj-gcov/src
 ls -l ls echo cat
 ./cat --version
 rm -f *.gcda
@@ -37,7 +37,7 @@ rm -f *.gcda
 ls -l echo.gcda
 gcov echo
 
-cd ~/source/coreutils-6.11/src/obj-llvm
+cd ~/source/coreutils-6.11/obj-llvm/src
 ls -l ls echo cat
 klee --libc=uclibc --posix-runtime ./cat.bc --version
 klee --libc=uclibc --posix-runtime ./echo.bc --help
