@@ -19,7 +19,7 @@
 # All package installs up front
 
 sudo apt-get update
-sudo apt-get install -y curl python-minimal git bison flex bc libcap-dev cmake build-essential libboost-all-dev
+sudo apt-get install -y curl python-minimal git bison flex bc libcap-dev cmake build-essential libboost-all-dev libncurses5-dev libncursesw5-dev
 
 # All source in source, tools in tools
 cd ~
@@ -54,7 +54,7 @@ cd ~/source
 [ ! -e llvm-2.9 ] && tar xvzf llvm-2.9.tgz
 
 # Fix lseek64 not found, from: http://www.mail-archive.com/klee-dev@imperial.ac.uk/msg01302.html
-patch llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp << EOF
+patch -N llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp << EOF
 diff -u -r llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp src/lib/ExecutionEngine/JIT/Intercept.cpp
 --- llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp	2010-11-29 18:16:10.000000000 +0000
 +++ src/lib/ExecutionEngine/JIT/Intercept.cpp	2013-09-27 12:11:02.464085889 +0100
@@ -106,6 +106,6 @@ make
 cd ~/source
 [ ! -e klee ] && git clone https://github.com/klee/klee.git
 cd klee
-./configure --with-llvm=~/source/llvm-2.9 --with-stp=~/tools/stp --with-uclibc=~/source/klee-uclibc --enable-posix-runtime
+./configure --with-llvm=../llvm-2.9 --with-stp=../../tools/stp --with-uclibc=../klee-uclibc --enable-posix-runtime
 
 echo "Restart terminal for new PATH (new tools)"
