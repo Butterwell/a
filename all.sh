@@ -43,18 +43,16 @@ export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
 cd ~/source
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux.tar.bz2 ] && curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 cd ~/tools
-tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
-echo 'PATH=~/llvm-gcc4.2-2.9-x86_64/bin:$PATH' >> ~/.bashrc
+[ ! -e llvm-gcc4.2-2.9-x86_64-linux ] && tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
+echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64/bin:$PATH' >> ~/.bashrc
 echo 'export PATH' >> ~/.bashrc
-PATH=~/llvm-gcc4.2-2.9-x86_64/bin:$PATH
-export PATH
+export PATH=~/tools/llvm-gcc4.2-2.9-x86_64/bin:$PATH
 
 #  llvm 2.9 release (to be built by llvm-gcc compiler, use to build klee)
-#cd ~/source
-#curl -O http://llvm.org/releases/2.9/llvm-2.9.tgz
-#tar xvzf ../llvm-2.9.tgz
-
-#cd llvm-2.9
+cd ~/source
+[ ! -e llvm-2.9.tgz ] && curl -O http://llvm.org/releases/2.9/llvm-2.9.tgz
+[ ! -e llvm-2.9 ] && tar xvzf llvm-2.9.tgz
+cd llvm-2.9
 # cmake? 
 #./configure --enable-optimized --enable-assertions
 #make
