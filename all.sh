@@ -50,30 +50,30 @@ PATH=~/llvm-gcc4.2-2.9-x86_64/bin:$PATH
 export PATH
 
 #  llvm 2.9 release (to be built by llvm-gcc compiler, use to build klee)
-cd ~/source
-curl -O http://llvm.org/releases/2.9/llvm-2.9.tgz
-tar xvzf ../llvm-2.9.tgz
+#cd ~/source
+#curl -O http://llvm.org/releases/2.9/llvm-2.9.tgz
+#tar xvzf ../llvm-2.9.tgz
 
-cd llvm-2.9
+#cd llvm-2.9
 # cmake? 
-./configure --enable-optimized --enable-assertions
-make
+#./configure --enable-optimized --enable-assertions
+#make
 
 # STP building
-cd ~/tools
-git clone https://github.com/stp/stp.git
-cd stp
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
+#cd ~/tools
+#git clone https://github.com/stp/stp.git
+#cd stp
+#mkdir build
+#cd build
+#cmake ..
+#make
+#sudo make install
 
-echo 'ulimit -s unlimited' >> ~/.bashrc
-ulimit -s unlimited
+#echo 'ulimit -s unlimited' >> ~/.bashrc
+#ulimit -s unlimited
 
 
 # klee-uclibc building
-cd ~/Tools
-git clone --depth 1 --branch klee_0_9_29 https://github.com/ccadar/klee-uclibc.git
+#cd ~/tools
+#git clone --depth 1 --branch klee_0_9_29 https://github.com/ccadar/klee-uclibc.git
 
