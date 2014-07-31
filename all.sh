@@ -26,8 +26,8 @@ cd ~
 [ ! -e source ] && mkdir source
 [ ! -e tools ] && mkdir tools
 
-#echo 'export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
-#echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
+echo 'export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
+echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
 export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
 export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
 
@@ -44,8 +44,8 @@ cd ~/source
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux.tar.bz2 ] && curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 cd ~/tools
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux ] && tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
-#echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH' >> ~/.bashrc
-#echo 'export PATH' >> ~/.bashrc
+echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH' >> ~/.bashrc
+echo 'export PATH' >> ~/.bashrc
 export PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH
 
 #  llvm 2.9 release (build in source)
