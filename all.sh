@@ -3,8 +3,9 @@
 # Assuming a new 64-bit Linux machine (image)
 
 # sudo apt-get install -y git
+# cd
 # git clone https://github.com/Butterwell/a.git
-# ./a/all.sh # This file
+# a/all.sh # this file
 #
 # If running on VirtualBox, start with this and enable bi-directional cut-and-paste
 # sudo apt-get install build-essential
@@ -16,6 +17,6 @@
 # A warning message about a lack of system headers can be removed with:
 # sudo apt-get linux-headers-$(uname -r)
 
-./klee.sh
-./klee-coreutil.sh
+~/a/klee.sh
+~/a/klee-coreutil.sh
 
