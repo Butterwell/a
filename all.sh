@@ -19,7 +19,7 @@
 # All package installs up front
 
 sudo apt-get update
-sudo apt-get install curl python-minimal git bison flex bc libcap-dev cmake build-essential
+sudo apt-get install -y curl python-minimal git bison flex bc libcap-dev cmake build-essential libboost-all-dev
 
 # All source in source, tools in tools
 cd ~
@@ -29,19 +29,19 @@ mkdir tools
 # cryptominisat 4 (first class sat used by stp)
 #  could build after: git clone https://github.com/msoos/cryptominisat.git
 cd ~/tools
-curl -O http://msoos.org/largefiles/cryptominisat_4.2-5_amd64.deb
+[ ! -e cryptominisat_4.2-5_amd64.deb ] && curl -O http://msoos.org/largefiles/cryptominisat_4.2-5_amd64.deb
 sudo dpkg -i cryptominisat_4.2-5_amd64.deb
 
 # Klee building
 
 echo 'export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
-echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~./bashrc
+echo 'export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu' >> ~/.bashrc
 export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
 export CPLUS_INCLUDE_PATH=/usr/include/x86_64-linux-gnu
 
 #  llvm-gcc compiler (prebuilt image)
 cd ~/source
-curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
+[ ! -e llvm-gcc4.2-2.9-x86_64-linux.tar.bz2 ] && curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 cd ~/tools
 tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 echo 'PATH=~/llvm-gcc4.2-2.9-x86_64/bin:$PATH' >> ~/.bashrc
