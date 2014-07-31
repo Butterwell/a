@@ -44,16 +44,17 @@ cd ~/source
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux.tar.bz2 ] && curl -O http://llvm.org/releases/2.9/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
 cd ~/tools
 [ ! -e llvm-gcc4.2-2.9-x86_64-linux ] && tar xvjf ~/source/llvm-gcc4.2-2.9-x86_64-linux.tar.bz2
-echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64/bin:$PATH' >> ~/.bashrc
+echo 'PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH' >> ~/.bashrc
 echo 'export PATH' >> ~/.bashrc
-export PATH=~/tools/llvm-gcc4.2-2.9-x86_64/bin:$PATH
+export PATH=~/tools/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH
 
 #  llvm 2.9 release (build in source)
 cd ~/source
 [ ! -e llvm-2.9.tgz ] && curl -O http://llvm.org/releases/2.9/llvm-2.9.tgz
 [ ! -e llvm-2.9 ] && tar xvzf llvm-2.9.tgz
+
 # Fix lseek64 not found, from: http://www.mail-archive.com/klee-dev@imperial.ac.uk/msg01302.html
-patch << EOF
+patch llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp << EOF
 diff -u -r llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp src/lib/ExecutionEngine/JIT/Intercept.cpp
 --- llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp	2010-11-29 18:16:10.000000000 +0000
 +++ src/lib/ExecutionEngine/JIT/Intercept.cpp	2013-09-27 12:11:02.464085889 +0100
@@ -66,9 +67,11 @@ diff -u -r llvm-2.9/lib/ExecutionEngine/JIT/Intercept.cpp src/lib/ExecutionEngin
  #include <fcntl.h>
  /* stat functions are redirecting to __xstat with a version number.  On x86-64 
 EOF
+
 cd llvm-2.9
 [ ! -e Release+Asserts ] && ./configure --enable-optimized --enable-assertions
 make
+export PATH=~/source/llvm-2.9/Release+Asserts/bin:$PATH
 
 # There is cmake materials in llvm-2.9. If they work, this is what you'd do:
 #mkdir build
@@ -96,9 +99,12 @@ cd klee-uclibc
 ./configure --make-llvm-lib
 make
 
+# ./configure -l
+# CC=/path/to/compiler ./configure -l --with-llvm-config /path/to/llvm-config
+
 # KLEE
 cd ~/source
-[ ! -e klee ] && git clone git clone https://github.com/klee/klee.git
+[ ! -e klee ] && git clone https://github.com/klee/klee.git
 cd klee
 ./configure --with-llvm=~/source/llvm-2.9 --with-stp=~/tools/stp --with-uclibc=~/source/klee-uclibc --enable-posix-runtime
 
