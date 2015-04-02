@@ -106,6 +106,8 @@ cd ~/source
 cd klee
 [ ! -e Release+Asserts ] && ./configure --with-llvm=../llvm-2.9 --with-stp=../../tools/stp --with-uclibc=../klee-uclibc --enable-posix-runtime
 make ENABLE_OPTIMIZED=1
+# Assuming 64 bit machine (Debian)
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
 make check
 make unittests
 sudo make install
